@@ -1,6 +1,8 @@
-function Display() {
+// vitual DOM
+function Display({ text }) {
     return <div>
-        <input type="text" />
+        <input disabled={true} dir="rtl"
+            value={text} type="text" className="form-control" />
     </div>
 }
 
