@@ -7,8 +7,13 @@ class Main extends React.Component {
 
     state = { text: '', op1: '', op2: '', op: null };
 
+    // refactoring
+
     onButtonPress = (val, isOperator) => {
         if (!isOperator) {
+            if (val === '.' && this.state.text.indexOf('.') > -1) {
+                return;
+            }
             this.setState({ text: this.state.text + val });
         }
         else {
@@ -52,6 +57,11 @@ class Main extends React.Component {
             <div className="row mt-3">
                 <div className="col-4">
                     <Display text={this.state.text} />
+                </div>
+            </div>
+            <div className="row mt-3">
+                <div className="col-1">
+                    <Button text="C" onPress={this.onButtonPress} />
                 </div>
             </div>
             <div className="row mt-3">
