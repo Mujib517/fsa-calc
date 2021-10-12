@@ -9,37 +9,41 @@ class Main extends React.Component {
 
     // refactoring
 
+    hasDecimal = (val) => {
+        return val === '.' && this.state.text.indexOf('.') > -1
+    }
+
+    calculate = (val) => {
+        let res = '';
+        const { op1, text } = this.state;
+
+        switch (this.state.op) {
+            case '+':
+                res = +op1 + +text;
+                break;
+            case '-':
+                res = +op1 - +text;
+                break;
+            case '*':
+                res = +op1 * +text;
+                break;
+            case '/':
+                res = +op1 / +text;
+                break;
+        }
+        this.setState({ text: res, op1: res, op: val });
+    }
+
     onButtonPress = (val, isOperator) => {
         if (!isOperator) {
-            if (val === '.' && this.state.text.indexOf('.') > -1) {
-                return;
-            }
+            if (this.hasDecimal(val)) return;
             this.setState({ text: this.state.text + val });
         }
         else {
             if (!this.state.op) {
                 this.setState({ op: val, op1: this.state.text, text: '' })
             }
-            else {
-                let res = '';
-                const { op1, text } = this.state;
-
-                switch (this.state.op) {
-                    case '+':
-                        res = +op1 + +text;
-                        break;
-                    case '-':
-                        res = +op1 - +text;
-                        break;
-                    case '*':
-                        res = +op1 * +text;
-                        break;
-                    case '/':
-                        res = +op1 / +text;
-                        break;
-                }
-                this.setState({ text: res, op1: res, op: val });
-            }
+            else this.calculate(val);
         }
     }
 
