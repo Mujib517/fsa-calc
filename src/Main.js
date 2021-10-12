@@ -12,26 +12,29 @@ class Main extends React.Component {
             this.setState({ text: this.state.text + val });
         }
         else {
-            if (this.state.op1 && this.state.op2) {
+            if (!this.state.op) {
+                this.setState({ op: val, op1: this.state.text, text: '' })
+            }
+            else {
                 let res = '';
+                const { op1, text } = this.state;
 
                 switch (this.state.op) {
                     case '+':
-                        res = this.state.op1 + this.state.op2;
+                        res = +op1 + +text;
                         break;
                     case '-':
-                        res = this.state.op1 - this.state.op2;
+                        res = +op1 - +text;
                         break;
                     case '*':
-                        res = this.state.op1 * this.state.op2;
+                        res = +op1 * +text;
                         break;
                     case '/':
-                        res = this.state.op1 / this.state.op2;
+                        res = +op1 / +text;
                         break;
                 }
-                this.setState({ text: res, op1: res, op2: '', op: null });
+                this.setState({ text: res, op1: res, op: val });
             }
-            else this.setState({ op1: this.state.text, op: val, text: '' });
         }
     }
 
@@ -46,17 +49,12 @@ class Main extends React.Component {
     //  Alt + Shift + F
     render() {
         return <div className="container">
-            <div className="row">
-                <div className="col-6">
+            <div className="row mt-3">
+                <div className="col-4">
                     <Display text={this.state.text} />
                 </div>
             </div>
-            <div className="row">
-                <div className="col-6">
-                    <hr />
-                </div>
-            </div>
-            <div className="row">
+            <div className="row mt-3">
                 <div className="col-1">
                     <Button text="7" onPress={this.onButtonPress} />
                 </div>
@@ -73,12 +71,7 @@ class Main extends React.Component {
                     />
                 </div>
             </div>
-            <div className="row">
-                <div className="col-6">
-                    <hr />
-                </div>
-            </div>
-            <div className="row">
+            <div className="row mt-3">
                 <div className="col-1">
                     <Button text="4" onPress={this.onButtonPress} />
                 </div>
@@ -94,12 +87,7 @@ class Main extends React.Component {
                         styles={this.getStyles('*')} />
                 </div>
             </div>
-            <div className="row">
-                <div className="col-6">
-                    <hr />
-                </div>
-            </div>
-            <div className="row">
+            <div className="row mt-3">
                 <div className="col-1">
                     <Button text="1" onPress={this.onButtonPress} />
                 </div>
@@ -112,6 +100,22 @@ class Main extends React.Component {
                 <div className="col-1">
                     <Button styles={this.getStyles('-')}
                         text="-" isOperator={true}
+                        onPress={this.onButtonPress} />
+                </div>
+            </div>
+            <div className="row mt-3">
+                <div className="col-1">
+                    <Button text="0" onPress={this.onButtonPress} />
+                </div>
+                <div className="col-1">
+                    <Button text="." onPress={this.onButtonPress} />
+                </div>
+                <div className="col-1">
+                    <Button text="=" isOperator={true} onPress={this.onButtonPress} />
+                </div>
+                <div className="col-1">
+                    <Button styles={this.getStyles('-')}
+                        text="+" isOperator={true}
                         onPress={this.onButtonPress} />
                 </div>
             </div>
